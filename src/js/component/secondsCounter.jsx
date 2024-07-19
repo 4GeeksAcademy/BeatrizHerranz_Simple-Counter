@@ -2,24 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './secondsCounter.css';
 
-const SecondsCounter = ({ Minutos, Segundos, CentSegundos }) => {
-	const formatNumber = (number) => {
-		return String(number).padStart(2, '0');
-	};
-
-	return (
-		<div className="counter-container">
-			<div className="digit">{formatNumber(Minutos)}</div>
-			<div className="digit">{formatNumber(Segundos)}</div>
-			<div className="digit">{formatNumber(CentSegundos)}</div>
-		</div>
-	);
+const SecondsCounter = ({ digitOne, digitTen, digitHundred, digitThousand, digitTenThousand, digitHundredThousand }) => {
+    return (
+        <div className="counter-container">
+            <div className="digit">{digitHundredThousand}</div>
+            <div className="digit">{digitTenThousand}</div>
+            <div className="digit">{digitThousand}</div>
+            <div className="digit">{digitHundred}</div>
+            <div className="digit">{digitTen}</div>
+            <div className="digit">{digitOne}</div>
+        </div>
+    );
 };
 
 SecondsCounter.propTypes = {
-	Minutos: PropTypes.number.isRequired,
-	Segundos: PropTypes.number.isRequired,
-	CentSegundos: PropTypes.number.isRequired,
+    digitOne: PropTypes.number.isRequired,
+    digitTen: PropTypes.number.isRequired,
+    digitHundred: PropTypes.number.isRequired,
+    digitThousand: PropTypes.number.isRequired,
+    digitTenThousand: PropTypes.number.isRequired,
+    digitHundredThousand: PropTypes.number.isRequired,
 };
 
 export default SecondsCounter;

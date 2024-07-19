@@ -1,40 +1,42 @@
 // Importar React y ReactDOM
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import SecondsCounter from './component/secondsCounter.jsx';
-
-// Incluir estilos de Bootstrap en el bundle de webpack
-import "bootstrap/dist/css/bootstrap.min.css";
 
 // Incluir tus estilos personalizados
 import "../styles/index.css";
 
-// Inicializar el contador en centésimas de segundo
-let counter = 0;
+// Componente principal del contador de segundos
+const App = () => {
+    const [counter, setCounter] = useState(0);
 
-// Función para actualizar el contador y renderizar el componente
-const updateCounter = () => {
-    const CentSegundos = counter % 10;
-    const Segundos = Math.floor(counter / 10) % 60;
-    const Minutos = Math.floor(counter / 600);
-    counter++;
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCounter(prevCounter => prevCounter + 1);
+        }, 1000); // Incrementa cada segundo (1000 ms)
 
-    // Renderizar el componente SecondsCounter
-    ReactDOM.render(
+        // Limpiar el intervalo cuando el componente se desmonte
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const one = Math.floor(counter % 10);
+    const ten = Math.floor((counter / 10) % 10);
+    const hundred = Math.floor((counter / 100) % 10);
+    const thousand = Math.floor((counter / 1000) % 10);
+    const tenThousand = Math.floor((counter / 10000) % 10);
+    const hundredThousand = Math.floor((counter / 100000) % 10);
+
+    return (
         <SecondsCounter
-            CentSegundos={CentSegundos}
-            Segundos={Segundos}
-            Minutos={Minutos}
-        />,
-        document.getElementById('app')
+            digitOne={one}
+            digitTen={ten}
+            digitHundred={hundred}
+            digitThousand={thousand}
+            digitTenThousand={tenThousand}
+            digitHundredThousand={hundredThousand}
+        />
     );
 };
 
-// Configurar el intervalo para actualizar el contador cada 100ms
-const contadorRounds = setInterval(updateCounter, 100);
-
-// Renderizar inicialmente el componente SecondsCounter
-ReactDOM.render(
-    <SecondsCounter Minutos={0} Segundos={0} CentSegundos={0} />,
-    document.getElementById('app')
-);
+// Renderizar el componente principal
+ReactDOM.render(<App />, document.getElementById('app'));
